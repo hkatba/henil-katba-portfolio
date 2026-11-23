@@ -32,13 +32,4 @@ To deploy, import the source repository into Vercel with the Next.js preset. Set
 
 ## Reference differences
 
-The portfolio adapts the public demo’s desktop, CRT treatment, and window navigation to Henil’s sections. The desktop opens ready to use and can be powered off and back on. The monitor scene is original, and the project visuals are technical diagrams. The contact window uses LinkedIn and GitHub. An approved public email, downloadable CV, project screenshots, and project demo links can be added when available.
-
-The monitor scene was generated with built-in ImageGen and optimized to `public/images/monitor.webp`.
-
-<details>
-<summary>Monitor image prompt</summary>
-
-Generate an original photorealistic editorial photograph for a website background, a late-1990s home office with an unbranded warm ivory CRT monitor. Landscape 3:2. Camera EXACTLY centered on monitor face, perfectly straight-on both axes with level horizontal edges, no rotation or perspective skew. Monitor casing centered x=50%, occupies approximately x=20–80%, y=15–86%. The blank dark blue-black curved glass face, with corner rounding only, occupies approximately x=24–76%, y=20–74%; face has classic 4:3 proportions. Nearly black neutral glass, unlit, with only a very faint window-pane reflection far right, empty flat dark glass at center and left where a website UI will be composited. Chunky beige plastic bezel, shaded rim and a small LED and power button on lower-right lip. Monitor stand and wood surface at bottom, vintage computer tower partially cropped at right, out-of-focus pencil holder and lamp at left, cream painted wall and blurred framed print in background. Late-afternoon window light and diagonal blind shadows grazing upper right edge of beige housing. Realistic vintage materials, visibly photographic, matte warm colors, gentle grain, distinctly lived-in. A single monitor. Absolutely no text, logos, any graphics or interface on the blank screen, watermarks or legible print.
-
-</details>
+The portfolio adapts the public demo’s desktop, CRT treatment, and window navigation to a full-viewport layout. The project visuals are technical diagrams, and the contact window uses LinkedIn and GitHub.

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Power,
-  Volume2,
-  VolumeX,
-  ZoomIn,
-  ZoomOut,
-} from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
@@ -101,8 +95,6 @@ export function Desktop({ children, name, summary, links }: DesktopProps) {
   const section = pathname.split("/")[1] as SectionId | undefined;
   const active = sections.find(({ id }) => id === section);
   const home = pathname === "/";
-  const [wide, setWide] = useState(false);
-  const [powered, setPowered] = useState(true);
   const [sound, setSound] = useState(false);
   const bounds = useRef<HTMLDivElement>(null);
   const lastPath = useRef(pathname);
@@ -124,21 +116,11 @@ export function Desktop({ children, name, summary, links }: DesktopProps) {
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.defaultPrevented) return;
-      if (!powered) {
-        const focusedControl = event.target instanceof HTMLElement && event.target.closest("button");
-        if (event.key.length === 1 && !focusedControl) setPowered(true);
-        return;
-      }
       if (event.key === "Escape" && !home) router.push("/");
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [home, powered, router]);
-
-  const togglePower = () => {
-    audioFeedback();
-    setPowered(!powered);
-  };
+  }, [home, router]);
 
   function shortcuts(compact: boolean) {
     return sections.map(({ id, title }) => {
@@ -161,76 +143,53 @@ export function Desktop({ children, name, summary, links }: DesktopProps) {
   }
 
   return (
-    <main className="scene" data-wide={wide}>
-      <div className="monitor">
-        <div className="screen" data-powered={powered}>
-          <div className="screen-ui" inert={!powered}>
-            <div className="workspace" ref={bounds} data-home={home}>
-              <div className="desktop">
-                <nav className="desktop-shortcuts" aria-label="Desktop">{shortcuts(false)}</nav>
-                <header className="desktop-hero">
-                  <p className="hero-summary">{summary}<span className="caret" aria-hidden="true" /></p>
-                  {home ? <h1 className="hero-name">{name}</h1> : <p className="hero-name">{name}</p>}
-                </header>
-                {home && (
-                  <div className="desktop-actions">
-                    <div className="hero-actions">
-                      <Link href="/work" onClick={audioFeedback}>View work</Link>
-                      <Link href="/contact" onClick={audioFeedback}>Contact me</Link>
-                    </div>
-                    <div className="hero-socials">
-                      <a href={links.github}>GitHub</a>
-                      <a href={links.linkedin}>LinkedIn</a>
-                    </div>
-                  </div>
-                )}
+    <main className="screen">
+      <div className="workspace" ref={bounds} data-home={home}>
+        <div className="desktop">
+          <nav className="desktop-shortcuts" aria-label="Desktop">{shortcuts(false)}</nav>
+          <header className="desktop-hero">
+            <p className="hero-summary">{summary}<span className="caret" aria-hidden="true" /></p>
+            {home ? <h1 className="hero-name">{name}</h1> : <p className="hero-name">{name}</p>}
+          </header>
+          {home && (
+            <div className="desktop-actions">
+              <div className="hero-actions">
+                <Link href="/work" onClick={audioFeedback}>View work</Link>
+                <Link href="/contact" onClick={audioFeedback}>Contact me</Link>
               </div>
-              <ScreenBounds.Provider value={bounds}>{children}</ScreenBounds.Provider>
+              <div className="hero-socials">
+                <a href={links.github}>GitHub</a>
+                <a href={links.linkedin}>LinkedIn</a>
+              </div>
             </div>
-            <footer className="taskbar">
-              <nav className="task-shortcuts" aria-label="Taskbar">{shortcuts(true)}</nav>
-              <div className="task-status">
-                {active ? (
-                  <Link href={`/${active.id}`} onClick={audioFeedback}>{active.title}</Link>
-                ) : <span>.NET APIs · Enterprise search</span>}
-              </div>
-              <div className="task-controls">
-                <button
-                  className="task-shortcut"
-                  type="button"
-                  aria-label="Sound"
-                  aria-pressed={sound}
-                  title={sound ? "Mute sound" : "Enable sound"}
-                  onClick={() => {
-                    if (!sound) playClick(audioContext);
-                    setSound(!sound);
-                  }}
-                >
-                  {sound ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
-                </button>
-                <Clock />
-              </div>
-            </footer>
-          </div>
-          {!powered && (
-            <button className="wake-screen" type="button" onClick={togglePower}>
-              <Power aria-hidden="true" /> Turn screen on
-            </button>
           )}
         </div>
-        <button
-          className="power-button"
-          type="button"
-          aria-label="Screen power"
-          aria-pressed={powered}
-          title={powered ? "Turn screen off" : "Turn screen on"}
-          onClick={togglePower}
-        />
+        <ScreenBounds.Provider value={bounds}>{children}</ScreenBounds.Provider>
       </div>
-      <div className="camera-controls" role="group" aria-label="Camera zoom">
-        <button type="button" onClick={() => setWide(false)} disabled={!wide} aria-label="Zoom in" title="Zoom in"><ZoomIn aria-hidden="true" /></button>
-        <button type="button" onClick={() => setWide(true)} disabled={wide} aria-label="Zoom out" title="Zoom out"><ZoomOut aria-hidden="true" /></button>
-      </div>
+      <footer className="taskbar">
+        <nav className="task-shortcuts" aria-label="Taskbar">{shortcuts(true)}</nav>
+        <div className="task-status">
+          {active ? (
+            <Link href={`/${active.id}`} onClick={audioFeedback}>{active.title}</Link>
+          ) : <span>.NET APIs · Enterprise search</span>}
+        </div>
+        <div className="task-controls">
+          <button
+            className="task-shortcut"
+            type="button"
+            aria-label="Sound"
+            aria-pressed={sound}
+            title={sound ? "Mute sound" : "Enable sound"}
+            onClick={() => {
+              if (!sound) playClick(audioContext);
+              setSound(!sound);
+            }}
+          >
+            {sound ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
+          </button>
+          <Clock />
+        </div>
+      </footer>
     </main>
   );
 }

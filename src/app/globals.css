@@ -14,7 +14,7 @@
 
 html {
   color-scheme: dark;
-  background: #18130f;
+  background: var(--screen);
 }
 
 body {
@@ -33,38 +33,15 @@ a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible {
 }
 ::selection { background: var(--ink); color: #151007; }
 
-.scene {
+.screen {
   position: relative;
   isolation: isolate;
-  width: 100%;
-  height: 100dvh;
-  overflow: hidden;
-  background: #32291e url("/images/monitor.webp") center / cover no-repeat;
-}
-
-.monitor {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(150vw, 240svh);
-  aspect-ratio: 3 / 2;
-  transform: translate(-50%, -43.6%);
-  transition: width 580ms cubic-bezier(0.16, 1, 0.3, 1);
-  background: url("/images/monitor.webp") center / 100% 100% no-repeat;
-}
-
-.scene[data-wide="true"] .monitor { width: max(100vw, 150svh); }
-
-.screen {
-  position: absolute;
-  inset: 15.35% 24.3% 28.2% 24.2%;
   container-type: inline-size;
   display: grid;
-  isolation: isolate;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100dvh;
   overflow: hidden;
-  border-radius: 5.7% / 8%;
-  background: radial-gradient(ellipse at 53% 50%, #13203142, #070c12a0);
-  box-shadow: inset 0 0 2.4rem #02060db0;
+  background: radial-gradient(ellipse at 54% 44%, #121b27, var(--screen) 78%);
 }
 
 .screen::after {
@@ -73,34 +50,10 @@ a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible {
   z-index: 4;
   inset: 0;
   pointer-events: none;
-  border-radius: inherit;
   background:
     repeating-linear-gradient(0deg, #0103062d 0 1px, transparent 1px 3px),
     radial-gradient(ellipse at center, transparent 57%, #0305084d 100%);
 }
-
-.screen-ui {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-}
-
-.screen[data-powered="false"] .screen-ui { visibility: hidden; }
-
-.wake-screen {
-  z-index: 5;
-  place-self: center;
-  display: flex;
-  gap: 0.65rem;
-  align-items: center;
-  min-height: 44px;
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--line);
-  background: var(--screen);
-  font-size: 0.875rem;
-}
-.wake-screen svg { width: 17px; }
 
 .workspace { position: relative; min-height: 0; }
 .desktop { position: absolute; inset: 0; }
@@ -209,7 +162,7 @@ a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible {
   justify-content: space-between;
   gap: 1cqi;
   min-width: 0;
-  padding: 0.95cqi 6.5% 1.6cqi;
+  padding: min(0.95cqi, 0.8rem) 6.5% min(1.6cqi, 1rem);
   border-top: 1px solid #99734255;
   background: #090d13a8;
   line-height: 1.25;
@@ -243,47 +196,6 @@ a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible {
 .task-status a { padding: 0.2em 0.42em; background: #c5924e; color: #111218; }
 .task-status a:hover { background: var(--bright); }
 .taskbar-clock { color: var(--muted); }
-
-.power-button {
-  position: absolute;
-  z-index: 5;
-  top: min(79.7%, calc(43.6% + 50dvh - 19px));
-  left: 74.05%;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-}
-.power-button::after {
-  content: "";
-  width: 15px;
-  height: 15px;
-  border: 1px solid #241c13;
-  border-radius: inherit;
-  background: radial-gradient(circle at 40% 29%, #60604c, #211c16 70%);
-  box-shadow: -12px 0 0 -5px #77ad66, -12px 0 6px -4px #8fe477;
-}
-.power-button[aria-pressed="false"]::after { box-shadow: -12px 0 0 -5px #625039; }
-.scene[data-wide="true"] .power-button::after { background: transparent; border-color: transparent; }
-
-.camera-controls {
-  position: absolute;
-  bottom: 1.35rem;
-  left: 1.35rem;
-  z-index: 6;
-  display: grid;
-  padding: 0.25rem;
-  border: 1px solid #b78a4427;
-  border-radius: 0.75rem;
-  background: #0c1119e8;
-  color: var(--bright);
-}
-.camera-controls button { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 0.35rem; }
-.camera-controls button:not(:disabled):hover { background: #42301a; }
-.camera-controls button:disabled { opacity: 0.42; }
-.camera-controls svg { width: 18px; height: 18px; }
 
 .portfolio-window {
   position: absolute;
@@ -469,32 +381,15 @@ a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible {
 @keyframes caret-tick { 55% { opacity: 0.22; } }
 
 @media (min-width: 731px) and (max-height: 620px) and (orientation: landscape) {
-  .camera-controls { bottom: 0.7rem; left: 0.7rem; }
   .desktop-shortcuts { top: 6%; gap: 2px 0.45rem; }
   .desktop-shortcut { min-height: 37px; }
-  .desktop-shortcut svg { width: 4.6cqi; }
+  .desktop-shortcut svg { width: min(4.6cqi, 52px); }
   .portfolio-window { inset-block: 4% 1.5%; }
   .taskbar { padding-block: 0.6cqi 1cqi; }
 }
 
 @media (max-width: 730px), ((max-width: 1100px) and (orientation: portrait)) {
-  .scene { background: #1a1917; }
-  .monitor, .scene[data-wide="true"] .monitor {
-    inset: 0;
-    width: 100%;
-    aspect-ratio: auto;
-    transform: none;
-    background: linear-gradient(155deg, #4a4135, #211d17 25%, #252119 78%, #534637);
-  }
-  .screen {
-    inset: 11px;
-    border-radius: clamp(19px, 5vw, 37px);
-    border: 1px solid #9e805b;
-    background: radial-gradient(ellipse at 53% 42%, #111a24, #080b11 82%);
-    box-shadow: inset 0 0 1.8rem 0.4rem #020409, 0 0 0 7px #211d1633, 0 0 13px #060403;
-  }
   .screen::after { opacity: 0.74; }
-  .power-button, .camera-controls { display: none; }
   .workspace[data-home="true"] { overflow: auto; scrollbar-width: thin; }
   .workspace[data-home="false"] .desktop { visibility: hidden; }
   .desktop {
@@ -553,7 +448,6 @@ a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible {
 }
 
 @media (max-width: 360px) {
-  .screen { inset: 7px; }
   .desktop { gap: 1.2rem; }
   .task-shortcuts, .task-controls { gap: 0.18rem; }
 }
