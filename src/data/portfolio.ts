@@ -21,7 +21,7 @@ export const profile = {
 } as const;
 
 export const shareImage = {
-  url: "/opengraph-image",
+  url: "/opengraph-image.png",
   width: 1200,
   height: 630,
   alt: `${profile.name}, ${profile.title.toLowerCase()}`,

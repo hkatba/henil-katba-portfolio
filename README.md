@@ -28,6 +28,8 @@ npm run build
 npm start
 ```
 
+GitHub Actions publishes the static export from `main` to [GitHub Pages](https://hkatba.github.io/henil-katba-portfolio/). The workflow sets `GITHUB_PAGES=true` and supplies the public site URL for canonical and social preview metadata.
+
 To deploy, import the source repository into Vercel with the Next.js preset. Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin when using a custom domain. The private source notes in `ABOUT_ME.md` are excluded from Git by default. [Next.js on Vercel](https://vercel.com/docs/frameworks/full-stack/nextjs)
 
 ## Reference differences

@@ -1,11 +1,11 @@
 import { ImageResponse } from "next/og";
 import { profile, shareImage } from "@/data/portfolio";
 
-export const alt = shareImage.alt;
-export const size = { width: shareImage.width, height: shareImage.height };
-export const contentType = "image/png";
+export const dynamic = "force-static";
 
-export default function OpenGraphImage() {
+const size = { width: shareImage.width, height: shareImage.height };
+
+export function GET() {
   return new ImageResponse(
     (
       <div style={{

@@ -7,6 +7,8 @@ import { findProject, projects } from "@/data/projects";
 
 type PageProps = { params: Promise<{ section?: string[] }> };
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return [
     { section: [] },
