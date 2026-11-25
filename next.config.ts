@@ -7,7 +7,6 @@ const config: NextConfig = {
   devIndicators: false,
   ...(githubPages && {
     output: "export",
-    basePath: "/henil-katba-portfolio",
     trailingSlash: true,
   }),
 };
