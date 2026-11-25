@@ -30,7 +30,7 @@ jobs:
       - run: npm run build
         env:
           GITHUB_PAGES: "true"
-          NEXT_PUBLIC_SITE_URL: https://hkatba.github.io/henil-katba-portfolio/
+          NEXT_PUBLIC_SITE_URL: https://hkatba.is-a.dev/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
